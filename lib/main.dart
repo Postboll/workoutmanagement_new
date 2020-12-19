@@ -69,37 +69,40 @@ class MainPage extends StatelessWidget {
 
           final workoutList = model.workoutList;
 
-          return GridView.builder(
-            
-            gridDelegate:
-            SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+          return StreamBuilder(
 
-            itemBuilder: (BuildContext context, int index) {
+            stream: FirebaseFirestore.instance.collection('workoutList').snapshots(),
 
-              return Container(
+            builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
 
-                child: Padding(
 
-                  padding: const EdgeInsets.all(10.0),
+                if (!snapshot.hasData) {
+                return Container(
 
-                  child: Stack(
+                );
+                } else {
+                return GridView.count(
+                primary: false,
+                crossAxisCount: 2,
+                padding: const EdgeInsets.all(20),
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                children: workoutList
+                                .map(
+                            (workout) => CheckboxListTile(
+                                title: Text(workout.title),
+                                value: workout.isDone,
+                                checkColor: Colors.red,
+                                onChanged: (bool value) {
+                                workout.isDone = !workout.isDone;
+                                model.reload();
+                                },
+                            ),
+                            )
+                                .toList(),
+                );
 
-                    children: workoutList
-                        .map(
-                          (workout) => CheckboxListTile(
-                        title: Text(workout.title),
-                        value: workout.isDone,
-                        onChanged: (bool value) {
-                          workout.isDone = !workout.isDone;
-                          model.reload();
-                        },
-                      ),
-                    ).toList(),
-
-                  ),
-
-                )
-              );
+                }
 
             },
 
@@ -127,7 +130,8 @@ class MainPage extends StatelessWidget {
             );
           }
         ),
-      ),
+      )
     );
+
   }
 }
