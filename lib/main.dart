@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -64,29 +65,54 @@ class MainPage extends StatelessWidget {
           ],
         ),
 
-        body: Consumer<MainModel>(builder: (context, model, child){
-          final workoutList = model.workoutList;
-          return ListView(
-            children: workoutList
-                .map(
-                    (workout) => CheckboxListTile(
-                      title: Text(
-                        workout.title,
-                        style: TextStyle(
-                          color: Colors.white
-                        ),
-                      ),
-                      value: workout.isDone,
-                      onChanged: (bool value) {
-                        workout.isDone = !workout.isDone;
-                        model.reload();
-                      },
+        body: Consumer<MainModel>(builder: (context, model, child) {
 
-            ),
-            )
-                .toList()
+          final workoutList = model.workoutList;
+
+          return GridView.builder(
+            
+            gridDelegate:
+            SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+
+            itemBuilder: (BuildContext context, int index) {
+
+              return Container(
+
+                child: Padding(
+
+                  padding: const EdgeInsets.all(10.0),
+
+                  child: Stack(
+
+                    children: workoutList
+                        .map(
+                          (workout) => CheckboxListTile(
+                        title: Text(workout.title),
+                        value: workout.isDone,
+                        onChanged: (bool value) {
+                          workout.isDone = !workout.isDone;
+                          model.reload();
+                        },
+                      ),
+                    ).toList(),
+
+                  ),
+
+                )
+              );
+
+            },
+
+
+
+
           );
-          }),
+
+
+
+
+        }),
+
         
         floatingActionButton: Consumer<MainModel>(builder: (context, model, child) {
 
@@ -101,9 +127,6 @@ class MainPage extends StatelessWidget {
             );
           }
         ),
-
-
-
       ),
     );
   }
