@@ -89,15 +89,18 @@ class MainPage extends StatelessWidget {
                 mainAxisSpacing: 10,
                 children: workoutList
                                 .map(
-                            (workout) => CheckboxListTile(
-                                title: Text(workout.title),
-                                value: workout.isDone,
-                                checkColor: Colors.red,
-                                onChanged: (bool value) {
-                                workout.isDone = !workout.isDone;
-                                model.reload();
-                                },
+                            (workout) => Material(
+                              color: Colors.teal[400],
+                              child: CheckboxListTile(
+                                  title: Text(workout.title),
+                                  value: workout.isDone,
+                                  onChanged: (bool value) {
+                                  workout.isDone = !workout.isDone;
+                                  model.reload();
+                                  },
+                              ),
                             ),
+
                             )
                                 .toList(),
                 );
@@ -105,10 +108,6 @@ class MainPage extends StatelessWidget {
                 }
 
             },
-
-
-
-
           );
 
 
@@ -127,6 +126,9 @@ class MainPage extends StatelessWidget {
                   ),
                 );
               },
+              child: Icon(
+                Icons.touch_app
+              ),
             );
           }
         ),

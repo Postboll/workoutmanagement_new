@@ -35,6 +35,10 @@ class AddPage extends StatelessWidget {
                     model.newWorkoutText = text;
                   },
                 ),
+                TextField(
+
+
+                ),
                 SizedBox(
                   height: 16,
                 ),
