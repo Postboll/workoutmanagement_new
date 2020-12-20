@@ -40,11 +40,11 @@ class MainPage extends StatelessWidget {
       child: Scaffold(
 
         appBar: AppBar(
-          title: Text("Workout Management"),
+          title: Text("Workout at home"),
           actions: [
               Consumer<MainModel>(builder: (context, model, child){
-                final isActive = model.checkShouldActiveCompleteButton();
 
+                final isActive = model.checkShouldActiveCompleteButton();
 
                 return FlatButton(onPressed: isActive
                   ? () async {
@@ -81,6 +81,7 @@ class MainPage extends StatelessWidget {
 
                 );
                 } else {
+                var counts;
                 return GridView.count(
                 primary: false,
                 crossAxisCount: 2,
@@ -92,7 +93,11 @@ class MainPage extends StatelessWidget {
                             (workout) => Material(
                               color: Colors.teal[400],
                               child: CheckboxListTile(
-                                  title: Text(workout.title),
+                                  title:
+                                  Text(
+                                    workout.title,
+                                    style: TextStyle(fontSize: 14),
+                                  ),
                                   value: workout.isDone,
                                   onChanged: (bool value) {
                                   workout.isDone = !workout.isDone;

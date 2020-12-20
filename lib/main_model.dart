@@ -7,6 +7,7 @@ class MainModel extends ChangeNotifier{
 
   List<Workout> workoutList = [];
   String newWorkoutText = '';
+  int newWorkoutDigit = 0 ;
 
   Future getWorkoutList() async {
 
@@ -37,6 +38,7 @@ class MainModel extends ChangeNotifier{
     await collection.add({
       'title': newWorkoutText,
       'createdAt': Timestamp.now(),
+      'count' : newWorkoutDigit,
     });
 
   }

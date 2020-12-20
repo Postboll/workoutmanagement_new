@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_management/main_model.dart';
 
@@ -27,6 +28,7 @@ class AddPage extends StatelessWidget {
             child: Column(
               children: [
                 TextField(
+                  autofocus: true,
                   decoration: InputDecoration(
                     labelText: '新しい筋トレ',
                     hintText: 'Input',
@@ -35,9 +37,14 @@ class AddPage extends StatelessWidget {
                     model.newWorkoutText = text;
                   },
                 ),
-                TextField(
-
-
+                TextFormField(
+                  keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[
+                    WhitelistingTextInputFormatter.digitsOnly
+                  ],
+                  onChanged: (text) {
+                    model.newWorkoutDigit = text as int;
+                  },
                 ),
                 SizedBox(
                   height: 16,
