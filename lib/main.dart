@@ -35,6 +35,7 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return ChangeNotifierProvider<MainModel>(
+
       create: (_) => MainModel()..getWorkoutListRealtime(),
 
       child: Scaffold(
@@ -91,32 +92,41 @@ class MainPage extends StatelessWidget {
                 children: workoutList
                                 .map(
                             (workout) => Material(
-                              color: Colors.teal[400],
-                              child: CheckboxListTile(
-                                  title:
-                                  Text(
-                                    workout.title,
-                                    style: TextStyle(fontSize: 14),
-                                  ),
-                                  value: workout.isDone,
-                                  onChanged: (bool value) {
-                                  workout.isDone = !workout.isDone;
-                                  model.reload();
-                                  },
-                              ),
-                            ),
 
+                              child:
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                          stops: [0.3, 1],
+                                        colors: [Colors.teal, Colors.blue]
+                                      )
+                                    ),
+                                    child: CheckboxListTile(
+                                      checkColor: Colors.white,
+                                        activeColor: Colors.orange,
+                                        title:
+                                        Text(
+                                          workout.title,
+                                          style: TextStyle(fontSize: 14),
+                                        ),
+                                        value: workout.isDone,
+                                        onChanged: (bool value) {
+                                        workout.isDone = !workout.isDone;
+                                        model.reload();
+                                        },
+                                    ),
+                                  ),
+
+
+                              ),
                             )
                                 .toList(),
                 );
-
                 }
-
             },
           );
-
-
-
 
         }),
 
@@ -142,3 +152,5 @@ class MainPage extends StatelessWidget {
 
   }
 }
+
+

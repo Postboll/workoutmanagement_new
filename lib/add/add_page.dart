@@ -4,16 +4,47 @@ import 'package:provider/provider.dart';
 import 'package:workout_management/main_model.dart';
 
 
-class AddPage extends StatelessWidget {
+List<String> reportList = [
+  "Not relevant",
+  "Illegal",
+  "Spam",
+  "Offensive",
+  "Uncivil"
+];
 
-  final MainModel model;
+
+
+class AddPage extends StatefulWidget {
+
+  List<String> reportList;
+
+  MainModel model;
+
   AddPage(this.model);
+
+  @override
+  _AddPage createState() => _AddPage();
+
+}
+
+
+
+class _AddPage extends State<AddPage> {
+
+  String selectedChoice = "";
+
+  MainModel model;
+
+  bool isSelected = false;
 
   @override
   Widget build(BuildContext context) {
 
+
     return ChangeNotifierProvider<MainModel>.value(
+
       value: MainModel(),
+
 
       child: Scaffold(
 
@@ -23,8 +54,12 @@ class AddPage extends StatelessWidget {
 
         body: Consumer<MainModel>(builder: (context, model, child){
 
+          List<Widget> choices = List();
+
           return Padding(
+
             padding: const EdgeInsets.all(16),
+
             child: Column(
               children: [
                 TextField(
@@ -37,6 +72,7 @@ class AddPage extends StatelessWidget {
                     model.newWorkoutText = text;
                   },
                 ),
+
                 TextFormField(
                   keyboardType: TextInputType.number,
                   inputFormatters: <TextInputFormatter>[
@@ -46,9 +82,25 @@ class AddPage extends StatelessWidget {
                     model.newWorkoutDigit = text as int;
                   },
                 ),
-                SizedBox(
-                  height: 16,
+
+
+                Container(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ChoiceChip(
+                    label: Text("ジム"),
+                    selected: isSelected,
+                    selectedColor: Colors.teal,
+                    onSelected: (selected) {
+                      setState (() {
+                        isSelected = selected;
+                      });
+                  },
+                  ),
+
                 ),
+
+
+
                 RaisedButton(
                   child: Text('筋トレ登録！'),
                     onPressed: () async {
@@ -66,3 +118,4 @@ class AddPage extends StatelessWidget {
     );
   }
 }
+
